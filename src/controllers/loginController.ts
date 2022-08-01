@@ -1,58 +1,97 @@
 import randomUseragent from 'random-useragent';
 import puppeteer from 'puppeteer';
 // import Exceljs from 'exceljs'
-import fs from 'fs'
+import fs from 'fs';
 
 let browser;
 
-export const loginConColokies =async()=>{
+let data: any = [];
 
+let count = 0;
+
+export const loginConColokies = async () => {
   const header: any = randomUseragent.getRandom(ua => {
     return ua.browserName === 'Firefox';
   });
 
   browser = await puppeteer.launch({
     headless: false,
+    args: ['--start-maximized'],
+    userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
     ignoreHTTPSErrors: true,
-    
   });
 
-  const page:puppeteer.Page  = await browser.newPage();
-
-  // await page.authenticate({ userProxy, passwordProxy });
+  const page = await browser.newPage();
 
   await page.setUserAgent(header);
 
   await page.setViewport({ width: 1366, height: 625 });
 
-  // const readCookie = fs.ReadFyleSync('cookies.txt','utf8')
+  const readCookie = fs.readFileSync('cookies.txt', 'utf8');
 
-  const readCookie = fs.readFileSync('cookies.txt','utf8')
+  const parseCookie = JSON.parse(readCookie);
 
+  await page.setCookie(...parseCookie);
 
-  const parseCookie = JSON.parse(readCookie)
+  await page.goto('https://www.cotilloncasaalberto.com.ar/pedido/carpeta_ver.php?buscar_txt=');
 
-  // console.log('parsecookie==========>',parseCookies)
+  await page.waitForSelector('#form');
 
-  await page.setCookie(...parseCookie)
+  const objectNextButton = await page.$('div.paginacion > a.ir-pagina:last-child');
 
+  // console.log('===objectNextButton==>',objectNextButton)
 
-  await page.goto('https://www.cotilloncasaalberto.com.ar/pedido/carpeta_ver.php?idcarpeta=4005&idcarpeta_padre=4005&menu_1=4&menu_2=3&menu_3=4005');
+  const totalPages = await page.$('div.paginacion')
 
-  
-}
+  const getTotalPages = await page.evaluate((totalPage:any) => totalPage.innerText, totalPages);
 
-export const saveCookies = (data:any)=>{
+  console.log('getTotalpages===========>',getTotalPages.substring(getTotalPages.length - 10,getTotalPages.length-16))
+  // console.log('getTotalpages===========>',getTotalPages)
 
-// let cookies :any = []
+  const getUrl = await page.evaluate(
+    (objectNextButton: any) => objectNextButton.getAttribute('href'),
+    objectNextButton
+  );
 
-// data.map((value : any) => cookies.push(value))
+  // console.log('==========geturl==========>', getUrl);
 
-fs.writeFile('cookies.txt',JSON.stringify(data),(err)=>{
-  if(err) console.log(err)
-})
+  const listaDeItems = await page.$$('div.producto_contenedor');
 
-}
+  // console.log('==========listaDeItems==========>', listaDeItems.length);
+  // while (objectNextButton) {
+    // console.log('entro====>')
+    for (const item of listaDeItems) {
+      const image = await item.$('div.producto > div > div > div > section > a > img');
+      // const image = await item.$(".ui-search-result-image__element");
+      // const name = await item.$(".ui-search-item__title");
+
+      // const getPrice = await page.evaluate(objectoPrecio => objectoPrecio.innerText, objectoPrecio);
+
+      // const getName = await page.evaluate(name => name.innerText, name);
+
+      const getImage = await page.evaluate((image: any) => image.getAttribute('src'), image);
+
+      data.push({
+        // name: getName,
+        // price: getPrice,
+        image: getImage,
+      });
+    }
+    count++;
+  // }
+
+  console.log('data==================>', data);
+};
+
+export const saveCookies = (data: any) => {
+  // let cookies :any = []
+
+  // data.map((value : any) => cookies.push(value))
+
+  fs.writeFile('cookies.txt', JSON.stringify(data), err => {
+    if (err) console.log(err);
+  });
+};
 
 export const Initialization = async (url = false) => {
   const header: any = randomUseragent.getRandom(ua => {
@@ -61,43 +100,39 @@ export const Initialization = async (url = false) => {
 
   browser = await puppeteer.launch({
     headless: false,
+    args: ['--start-maximized'],
+    userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
     ignoreHTTPSErrors: true,
-    
   });
 
-  const page:puppeteer.Page  = await browser.newPage();
-
-  // await page.authenticate({ userProxy, passwordProxy });
+  const page: puppeteer.Page = await browser.newPage();
 
   await page.setUserAgent(header);
 
   await page.setViewport({ width: 1366, height: 625 });
 
-  // const readCookie = fs.ReadFyleSync('cookies.txt','utf8')
-
   await page.goto('https://www.cotilloncasaalberto.com.ar/');
 
-  const loginInput = await page.waitForSelector('#login_usuario')
+  const loginInput = await page.waitForSelector('#login_usuario');
 
-  const loginPassword = await page.waitForSelector('#login_clave')
+  const loginPassword = await page.waitForSelector('#login_clave');
 
-  await loginInput?.type('jose')
+  await loginInput?.type('jose');
 
-  await loginPassword?.type('rosa301')
+  await loginPassword?.type('rosa301');
 
-  await page.click('.i2_login_boton_ingresar')
+  await page.click('.i2_login_boton_ingresar');
 
+  // const searchForm = await page.$('#form_i2_login')
+  // await searchForm?.evaluate((searc:any)=> searc.submit())
 
-  const cookies = await page.cookies()
+  await page.waitForNavigation();
 
-  console.log('===========>',cookies)
-  saveCookies(cookies)
+  // await page.click('input[type=submit]')
 
-  await browser.close()
+  const cookies = await page.cookies();
 
+  saveCookies(cookies);
 
-
+  // await browser.close()
 };
-
-
-// d532786f91730f6d36c2ccdf65e69749=6bnmqc5dphb2velgvjf5hlldpc; clients=p9modjvvgqg7hq0vdba1s3lnoi
