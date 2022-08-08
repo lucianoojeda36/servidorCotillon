@@ -8,12 +8,12 @@ let browser: any;
 
 let page: any;
 
-const LoginWithCookies = async (url = false) => {
-  const downloadPath = path.resolve('./download');
+const LoginWithCookies: (url?: boolean) => Promise<void> = async (url = false) => {
+  const downloadPath : string = path.resolve('./download');
 
   const urlMain = 'https://www.cotilloncasaalberto.com.ar/pedido/descarga.php';
 
-  const header: any = randomUseragent.getRandom(ua => {
+  const header: string | null= randomUseragent.getRandom(ua => {
     return ua.browserName === 'Firefox';
   });
 

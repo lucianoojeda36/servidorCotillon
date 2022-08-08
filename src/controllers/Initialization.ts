@@ -4,7 +4,7 @@ import SaveCookies from './saveCookies';
 
 let browser: any;
 
-const Initialization = async (url = false) => {
+const Initialization: (url?: boolean) => Promise<void> = async (url = false) => {
   const header: any = randomUseragent.getRandom(ua => {
     return ua.browserName === 'Firefox';
   });
@@ -24,9 +24,9 @@ const Initialization = async (url = false) => {
 
   await page.goto('https://www.cotilloncasaalberto.com.ar/');
 
-  const loginInput = await page.waitForSelector('#login_usuario');
+  const loginInput: puppeteer.ElementHandle<Element> | null = await page.waitForSelector('#login_usuario');
 
-  const loginPassword = await page.waitForSelector('#login_clave');
+  const loginPassword: puppeteer.ElementHandle<Element> | null= await page.waitForSelector('#login_clave');
 
   await loginInput?.type('jose');
 
@@ -36,14 +36,9 @@ const Initialization = async (url = false) => {
 
   await page.waitForNavigation();
 
-  const cookies = await page.cookies();
+  const cookies: puppeteer.Protocol.Network.Cookie[] = await page.cookies();
 
   SaveCookies(cookies);
-
-
 };
 
-export default Initialization
-
-
-
+export default Initialization;

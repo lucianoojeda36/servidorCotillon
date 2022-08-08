@@ -3,12 +3,14 @@ import path from 'path';
 import fs from 'fs';
 import SaveProducts from './saveProducts';
 
-const ReadXslx = async () => {
-  let xlsx1 = path.resolve('download');
+const ReadXslx: () => Promise<void> = async () => {
+  const xlsx1: string = path.resolve('download');
 
-  const files: string[] = fs.readdirSync(xlsx1);
+  const files: Array<string> = fs.readdirSync(xlsx1);
 
-  const result: any = excelToJson({
+  const result: {
+    [key: string]: any[];
+  } = excelToJson({
     sourceFile: `${xlsx1}/${files[0]}`,
     header: {
       rows: 9,
@@ -22,10 +24,10 @@ const ReadXslx = async () => {
 
   for (let product of result.rptPreciosExcelPagina) {
     let { Barcode, Description, Price } = product;
-    SaveProducts(Barcode, Description, Price)
+    SaveProducts(Barcode, Description, Price);
   }
 
-  console.log('product list was stored')
+  console.log('product list was stored');
 };
 
 export default ReadXslx;
