@@ -1,6 +1,8 @@
 import randomUseragent from 'random-useragent';
 import puppeteer from 'puppeteer';
 import SaveCookies from './saveCookiesController';
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 
 let browser: any;
@@ -29,9 +31,9 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
 
   const loginPassword: puppeteer.ElementHandle<Element> | null= await page.waitForSelector('#login_clave');
 
-  await loginInput?.type('jose');
+  await loginInput?.type(process.env.USER_NAME as string);
 
-  await loginPassword?.type('rosa301');
+  await loginPassword?.type(process.env.USER_PASSWORD as string);
 
   await page.click('.i2_login_boton_ingresar');
 

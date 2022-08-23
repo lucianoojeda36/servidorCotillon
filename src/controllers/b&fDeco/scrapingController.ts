@@ -2,7 +2,7 @@ import Puppeteer from 'puppeteer';
 import randomUseragent from 'random-useragent';
 import fs from 'fs';
 import SaveProducts from '../saveProductsController';
-// require('events').EventEmitter.prototype._maxListeners = 100;
+require('events').EventEmitter.prototype._maxListeners = 100;
 
 let browser: any;
 
@@ -25,6 +25,9 @@ const ScrapingController: () => Promise<void> = async () => {
     // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
     ignoreHTTPSErrors: true,
     // args: ['--no-sandbox', '--disabled-setupid-sandbox'],
+    args: ['--start-maximized'],
+    userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
+    
   });
 
   page = await browser.newPage();
@@ -79,7 +82,7 @@ const ScrapingController: () => Promise<void> = async () => {
 
     ScrapingController();
  
-    page = await browser.close();
+    // page = await browser.close();
   }
 };
 

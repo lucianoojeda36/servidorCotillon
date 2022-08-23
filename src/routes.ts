@@ -11,10 +11,9 @@ router.get('/product', async (req, res, next) => {
     if (reply) return res.send(JSON.parse(reply));
 
     const response = await AppDataSource.getRepository(Products).find();
-    const saveResult = await client.set('Product', JSON.stringify(response), {
+    await client.set('Product', JSON.stringify(response), {
       EX: 10,
     });
-    console.log(saveResult);
 
     res.send(response);
   } catch (error: any) {
@@ -22,10 +21,27 @@ router.get('/product', async (req, res, next) => {
   }
 });
 
-router.get('/', async (req, res) => {
-  const response = await AppDataSource.getRepository(Products).find();
-  res.send(response);
-  // res.send('goal,sd')
+router.get('/productForName', async (req, res) => {
+  const { name } = req.body;
+
+  try {
+    const reply = await client.get('productForName');
+
+    if (reply) return res.send(JSON.parse(reply));
+
+    const response = await AppDataSource.getRepository(Products).findOne({
+      where: {
+        description: { $regex: name, $options: 'i' },
+      },
+    } as any);
+
+    await client.set('productForName', JSON.stringify(response), {
+      EX: 10,
+    });
+    res.send(response);
+  } catch (error: any) {
+    res.send(error.message);
+  }
 });
 
 export default router;

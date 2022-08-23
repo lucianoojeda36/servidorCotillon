@@ -34,7 +34,7 @@ InitializationController().then(async () => {
       // ReadXslxController();
       await ReadXslxCotillonController();
 
-      console.log('database is running');
+      await console.log('database is running');
     })
     .catch(error => console.log(error));
 });

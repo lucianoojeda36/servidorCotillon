@@ -8,8 +8,6 @@ const ReadXslxCotillonController: () => Promise<void> = async () => {
 
   const files: Array<string> = fs.readdirSync(xlsx1);
 
-
-
   const result: {
     [key: string]: any[];
   } = excelToJson({
@@ -23,7 +21,6 @@ const ReadXslxCotillonController: () => Promise<void> = async () => {
       C: 'Price',
     },
   });
-  console.log('===resul´t=============>',result)
 
   for (let product of result.rptPreciosExcelPagina) {
     let { Barcode, Description, Price } = product;
