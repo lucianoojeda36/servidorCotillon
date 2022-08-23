@@ -1,4 +1,4 @@
-import { Entity, Column,CreateDateColumn, UpdateDateColumn, ObjectIdColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, ObjectIdColumn, BaseEntity } from 'typeorm';
 
 @Entity()
 export class Products extends BaseEntity {
@@ -10,6 +10,9 @@ export class Products extends BaseEntity {
 
   @Column()
   price: number;
+
+  @Column()
+  image: string;
 
   @CreateDateColumn()
   createdAt: Date;

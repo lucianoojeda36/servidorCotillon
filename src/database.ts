@@ -11,6 +11,9 @@ const AppDataSource : DataSource = new DataSource({
   synchronize: true,
   logging: ['query', 'error'],
   useUnifiedTopology:true,
+  dropSchema:true,
+
+
 });
 
 export default AppDataSource
