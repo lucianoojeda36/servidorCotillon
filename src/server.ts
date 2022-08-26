@@ -13,6 +13,8 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 require('events').EventEmitter.prototype._maxListeners = 0;
 
+const port = process.env.PORT || 3000
+
 export const client = createClient({
   url: process.env.REDIS_URL,
 });
@@ -45,4 +47,4 @@ InitializationController().then(async () => {
     .catch(error => console.log(error));
 });
 
-app.listen('3000', () => console.log('server connected on port 3000'));
+app.listen(`${port}`, () => console.log(`server connected on port ${port}`));
