@@ -9,9 +9,15 @@ import ReadXslxController from './controllers/vientoNorte/readXslxController';
 import ReadXslxCotillonController from './controllers/casaAlberto/readXslxController';
 import LoginWithCookiesController from './controllers/loginWithCookiesController';
 import { createClient } from 'redis';
+import * as dotenv from 'dotenv';
+dotenv.config();
+require('events').EventEmitter.prototype._maxListeners = 0;
 
-export const client = createClient();
+export const client = createClient({
+  url: process.env.REDIS_URL,
+});
 
+// export const client = createClient();
 (async () => {
   client.on('connect', function () {
     console.log('connected');

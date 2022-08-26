@@ -4,6 +4,7 @@ import randomUseragent from 'random-useragent';
 import fs from 'fs'
 
 
+
 let browser: any;
 
 let page: any;
@@ -41,7 +42,7 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async (url 
 
   await page.waitForSelector('#contenedor');
 
-  const objectNextButton = await page.$('div.descargas_tabla_fila:nth-child(12) > a.descargas_b_descargar');
+  const objectNextButton = await page.$('div.descargas_tabla_fila:nth-child(11) > a.descargas_b_descargar');
 
   const getUrl: any = await page.evaluate(
     (objectNextButton: any) => objectNextButton.getAttribute('href'),
@@ -55,7 +56,7 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async (url 
     downloadPath: downloadPath,
   });
 
-  await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(13) > a')]);
+  await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(11) > a')]);
 };
 
 export default LoginWithCookiesController
