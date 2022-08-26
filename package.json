@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {"node": "16.15.0"},
   "scripts": {
-    "start": "ts-node-dev --respawn src/server.ts"
+    "start": "node dist/server.js",
+    "postinstall": "tsc && mv -i -v download dist/ && rm -v -rf src",
+    "watch-node": "nodemon dist/server.js",
+    "watch-ts": "tsc -w",
+    "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
   "keywords": [],
   "author": "",

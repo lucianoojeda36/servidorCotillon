@@ -2,3 +2,4 @@ node_modules
 UsersHPAppDataLocalGoogleChromeUser/
 .env
 cookies.txt
+dist/
