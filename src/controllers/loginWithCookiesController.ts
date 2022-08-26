@@ -22,7 +22,7 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async (url 
   browser = await Puppeteer.launch({
     headless: true,
     args: ['--start-maximized'],
-    userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
+    // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
     ignoreHTTPSErrors: true,
   });
 

@@ -15,7 +15,7 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
   browser = await puppeteer.launch({
     headless: true,
     args: ['--start-maximized'],
-    userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
+    // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
     ignoreHTTPSErrors: true,
   });
 
