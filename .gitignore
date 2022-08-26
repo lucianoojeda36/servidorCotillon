@@ -3,3 +3,4 @@ UsersHPAppDataLocalGoogleChromeUser/
 .env
 cookies.txt
 dist/
+build/
