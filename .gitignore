@@ -1,4 +1,4 @@
 node_modules
-UsersHPAppDataLocalGoogleChromeUser/**/*
+UsersHPAppDataLocalGoogleChromeUser/
 .env
 cookies.txt
