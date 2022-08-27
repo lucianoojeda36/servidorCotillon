@@ -4,7 +4,7 @@ import fs from 'fs';
 import SaveProducts from '../saveProductsController';
 
 const ReadXslxCotillonController: () => Promise<void> = async () => {
-  const xlsx1: string = path.resolve('download','casa_alberto');
+  const xlsx1: string = path.resolve('src','download','casa_alberto');
 
   const files: Array<string> = fs.readdirSync(xlsx1);
 

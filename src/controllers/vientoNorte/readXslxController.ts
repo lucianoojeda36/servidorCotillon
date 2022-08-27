@@ -4,7 +4,7 @@ import excelToJson from 'convert-excel-to-json';
 import SaveProducts from '../saveProductsController';
 
 const ReadXslxController = async () => {
-  const xlsx1: string = path.resolve('download/viento_norte');
+  const xlsx1: string = path.resolve('src','download','viento_norte');
 
   const files: Array<string> = fs.readdirSync(xlsx1);
 

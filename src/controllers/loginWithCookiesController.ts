@@ -9,8 +9,8 @@ let browser: any;
 
 let page: any;
 
-const LoginWithCookiesController: (url?: boolean) => Promise<void> = async (url = false) => {
-  const downloadPath : string = path.resolve('download','casa_alberto');
+const LoginWithCookiesController: (url?: boolean) => Promise<void> = async () => {
+  const downloadPath : string = path.resolve('src','download','casa_alberto');
   
 
   const urlMain = 'https://www.cotilloncasaalberto.com.ar/pedido/descarga.php';
@@ -32,17 +32,17 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async (url 
 
   await page.setViewport({ width: 1366, height: 625 });
 
-  const readCookie = fs.readFileSync('cookies.txt', 'utf8');
+  const readCookie = fs.readFileSync('src/download/cookies/cookies.txt', 'utf8');
 
   const parseCookie = JSON.parse(readCookie);
 
   await page.setCookie(...parseCookie);
 
-  await page.goto(url ? url : urlMain);
+  await page.goto(urlMain);
 
   await page.waitForSelector('#contenedor');
 
-  const objectNextButton = await page.$('div.descargas_tabla_fila:nth-child(11) > a.descargas_b_descargar');
+  const objectNextButton = await page.$('div.descargas_tabla_fila:nth-child(12) > a.descargas_b_descargar');
 
   const getUrl: any = await page.evaluate(
     (objectNextButton: any) => objectNextButton.getAttribute('href'),
@@ -56,7 +56,7 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async (url 
     downloadPath: downloadPath,
   });
 
-  await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(11) > a')]);
+  await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(12) > a')]);
 };
 
 export default LoginWithCookiesController
