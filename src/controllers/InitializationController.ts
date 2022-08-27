@@ -16,9 +16,10 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
     headless: true,
     // args: ['--start-maximized'],
     ignoreDefaultArgs: ['--disable-extensions'],
+    args: ["--no-sandbox"],
     // args:['--no-sandbox'],
     // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
-    ignoreHTTPSErrors: true,
+    // ignoreHTTPSErrors: true,
   });
 
   const page: puppeteer.Page = await browser.newPage();

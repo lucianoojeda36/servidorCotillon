@@ -23,9 +23,10 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async () =>
     headless: true,
     // args: ['--start-maximized'],
     ignoreDefaultArgs: ['--disable-extensions'],
+    args: ["--no-sandbox"],
     // args:['--no-sandbox'],
     // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
-    ignoreHTTPSErrors: true,
+    // ignoreHTTPSErrors: true,
   });
 
   page = await browser.newPage();
