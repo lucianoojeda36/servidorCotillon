@@ -1,7 +1,7 @@
 import randomUseragent from 'random-useragent';
 import puppeteer from 'puppeteer';
 import SaveCookies from './saveCookiesController';
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 dotenv.config()
 
 
@@ -15,8 +15,8 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
   browser = await puppeteer.launch({
     headless: true,
     // args: ['--start-maximized'],
-    ignoreDefaultArgs: ['--disable-extensions'],
-    args: ["--no-sandbox",'--use-gl=egl'],
+    // ignoreDefaultArgs: ['--disable-extensions'],
+    // args: ["--no-sandbox",'--use-gl=egl'],
     // args:['--no-sandbox'],
     // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
     // ignoreHTTPSErrors: true,
