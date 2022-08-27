@@ -38,7 +38,7 @@
     "pdf-to-excel": "^0.3.2",
     "pdf.js-extract": "^0.2.0",
     "pdf2json": "^2.0.1",
-    "puppeteer": "^15.5.0",
+    "puppeteer": "^16.2.0",
     "random-useragent": "^0.5.0",
     "redis": "^4.3.0",
     "redis-commander": "^0.8.0",
