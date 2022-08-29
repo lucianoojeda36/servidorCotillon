@@ -44,6 +44,8 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
 
   const cookies: puppeteer.Protocol.Network.Cookie[] = await page.cookies();
 
+  // console.log('====cookies====>',cookies)
+
   SaveCookies(cookies);
 
   

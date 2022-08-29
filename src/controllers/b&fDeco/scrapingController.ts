@@ -21,12 +21,12 @@ const ScrapingController: () => Promise<void> = async () => {
 
   browser = await Puppeteer.launch({
     headless: true,
-    // // args: ['--no-sandbox', '--disabled-setupid-sandbox'],
+    args: ['--no-sandbox'],
     // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
-    ignoreHTTPSErrors: true,
+    // ignoreHTTPSErrors: true,
     // args: ['--no-sandbox', '--disabled-setupid-sandbox'],
-    args: ['--start-maximized'],
-    userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
+    // args: ['--start-maximized'],
+    // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
     
   });
 
@@ -36,7 +36,7 @@ const ScrapingController: () => Promise<void> = async () => {
 
   await page.setViewport({ width: 1366, height: 625 });
 
-  const readCookie : string = fs.readFileSync('cookies.txt', 'utf8');
+  const readCookie : string = fs.readFileSync('src/download/cookies/cookies.txt', 'utf8');
 
   const parseCookie : any = JSON.parse(readCookie);
 

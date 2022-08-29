@@ -10,6 +10,7 @@ import ReadXslxCotillonController from './controllers/casaAlberto/readXslxContro
 import LoginWithCookiesController from './controllers/loginWithCookiesController';
 import { createClient } from 'redis';
 import * as dotenv from 'dotenv';
+import fs from 'fs';
 dotenv.config();
 require('events').EventEmitter.prototype._maxListeners = 0;
 
@@ -34,8 +35,16 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use('/api', router);
 
+const createFolder = ()=>{
+  fs.mkdirSync('./src/download/casa_alberto',{recursive:true});
+  fs.mkdirSync('./src/download/cookies',{recursive:true});
+  fs.mkdirSync('./src/download/viento_norte',{recursive:true});
+}
+
+// createFolder()
 InitializationController().then(async () => {
   await LoginWithCookiesController();
+  
   AppDataSource.initialize()
     .then(async () => {
       await ScrapingController();

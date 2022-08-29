@@ -5,6 +5,7 @@ dotenv.config();
 
 const AppDataSource: DataSource = new DataSource({
   type: 'mongodb',
+  database:'cotillon',
   url: process.env.NAME_HOST_DATABASE,
   entities: [Products],
   synchronize: true,
