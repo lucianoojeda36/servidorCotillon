@@ -41,7 +41,7 @@ const createFolder = ()=>{
   fs.mkdirSync('./src/download/viento_norte',{recursive:true});
 }
 
-// createFolder()
+createFolder()
 InitializationController().then(async () => {
   await LoginWithCookiesController();
   
