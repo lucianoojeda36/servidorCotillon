@@ -13,8 +13,8 @@ const AppDataSource: DataSource = new DataSource({
   useUnifiedTopology: true,
   dropSchema: true,
   useNewUrlParser: true,
-  connectTimeoutMS: 10000,
-  poolSize: 10,
+  // connectTimeoutMS: 10000,
+  // poolSize: 10,
   j: true,
 });
 
