@@ -35,18 +35,19 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use('/api', router);
 
-const createFolder = () => {
-  fs.mkdirSync('./src/download/casa_alberto', { recursive: true });
-  fs.mkdirSync('./src/download/cookies', { recursive: true });
-  fs.mkdirSync('./src/download/viento_norte', { recursive: true });
+(async () => {
+  await fs.mkdirSync('./src/download/casa_alberto', { recursive: true });
+  await fs.mkdirSync('./src/download/cookies', { recursive: true });
+  await fs.mkdirSync('./src/download/viento_norte', { recursive: true });
+})();
+
+const checkIsCookieExist = () => {
+  const readCookie = fs.existsSync('src/download/cookies/cookies.txt');
+  const readCookieExist = readCookie ? true : false;
+  return readCookieExist;
 };
 
-const readCookie = fs.readFileSync('src/download/cookies/cookies.txt', 'utf8');
-
-const parseCookie = JSON.parse(readCookie);
-
-createFolder();
-parseCookie.length > 0
+checkIsCookieExist()
   ? LoginWithCookiesController().then(() => {
       AppDataSource.initialize()
         .then(async () => {
