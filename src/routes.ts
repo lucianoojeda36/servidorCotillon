@@ -44,4 +44,27 @@ router.get('/productForName', async (req, res) => {
   }
 });
 
+router.get('/productForBarCode', async (req, res) => {
+  const { code } = req.body;
+
+  try {
+    const reply = await client.get('productForBarCode');
+
+    if (reply) return res.send(JSON.parse(reply));
+
+    const response = await AppDataSource.getRepository(Products).findOne({
+      where: {
+        barcode: { $regex: code, $options: 'i' },
+      },
+    } as any);
+
+    await client.set('productForBarCode', JSON.stringify(response), {
+      EX: 10,
+    });
+    res.send(response);
+  } catch (error: any) {
+    res.send(error.message);
+  }
+});
+
 export default router;

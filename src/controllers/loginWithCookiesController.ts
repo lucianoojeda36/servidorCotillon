@@ -45,12 +45,17 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async () =>
 
   await page.waitForSelector('#contenedor');
 
-  const objectNextButton = await page.$('div.descargas_tabla_fila:nth-child(12) > a.descargas_b_descargar');
+  const objectPrecios1 = await page.$('div.descargas_tabla_fila:nth-child(11) > div.descargas_tabla_linea > span');
+  const objectPrecios2 = await page.$('div.descargas_tabla_fila:nth-child(12) > div.descargas_tabla_linea > span');
+  
 
-  const getUrl: any = await page.evaluate(
-    (objectNextButton: any) => objectNextButton.getAttribute('href'),
-    objectNextButton
-  );
+  const getObjectPrecios1 = await page.evaluate((objectPrecio:any) => objectPrecio.innerText, objectPrecios1);
+ 
+
+  // const getUrl: any = await page.evaluate(
+  //   (objectNextButton: any) => objectNextButton.getAttribute('href'),
+  //   objectNextButton
+  // );
 
   const client = await page.target().createCDPSession();
 
@@ -59,7 +64,7 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async () =>
     downloadPath: downloadPath,
   });
 
-  await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(12) > a')]);
+  getObjectPrecios1 === 'Precios' ? await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(11) > a')]) : await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(12) > a')])
 };
 
 export default LoginWithCookiesController

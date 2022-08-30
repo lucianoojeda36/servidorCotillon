@@ -14,7 +14,7 @@ import fs from 'fs';
 dotenv.config();
 require('events').EventEmitter.prototype._maxListeners = 0;
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 export const client = createClient({
   url: process.env.REDIS_URL,
@@ -35,25 +35,41 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use('/api', router);
 
-const createFolder = ()=>{
-  fs.mkdirSync('./src/download/casa_alberto',{recursive:true});
-  fs.mkdirSync('./src/download/cookies',{recursive:true});
-  fs.mkdirSync('./src/download/viento_norte',{recursive:true});
-}
+const createFolder = () => {
+  fs.mkdirSync('./src/download/casa_alberto', { recursive: true });
+  fs.mkdirSync('./src/download/cookies', { recursive: true });
+  fs.mkdirSync('./src/download/viento_norte', { recursive: true });
+};
 
-createFolder()
-InitializationController().then(async () => {
-  await LoginWithCookiesController();
-  
-  AppDataSource.initialize()
-    .then(async () => {
-      await ScrapingController();
-      // ReadXslxController();
-      await ReadXslxCotillonController();
+const readCookie = fs.readFileSync('src/download/cookies/cookies.txt', 'utf8');
 
-      await console.log('database is running');
+const parseCookie = JSON.parse(readCookie);
+
+createFolder();
+parseCookie.length > 0
+  ? LoginWithCookiesController().then(() => {
+      AppDataSource.initialize()
+        .then(async () => {
+          await ScrapingController();
+          // ReadXslxController();
+          await ReadXslxCotillonController();
+
+          await console.log('database is running');
+        })
+        .catch(error => console.log(error));
     })
-    .catch(error => console.log(error));
-});
+  : InitializationController().then(async () => {
+      await LoginWithCookiesController();
+
+      AppDataSource.initialize()
+        .then(async () => {
+          await ScrapingController();
+          // ReadXslxController();
+          await ReadXslxCotillonController();
+
+          await console.log('database is running');
+        })
+        .catch(error => console.log(error));
+    });
 
 app.listen(`${port}`, () => console.log(`server connected on port ${port}`));
