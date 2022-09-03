@@ -14,12 +14,8 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
 
   browser = await puppeteer.launch({
     headless: true,
-    // args: ['--start-maximized'],
-    // ignoreDefaultArgs: ['--disable-extensions'],
-    // args: ["--no-sandbox",'--use-gl=egl'],
     args:['--no-sandbox'],
-    // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
-    // ignoreHTTPSErrors: true,
+
   });
 
   const page: puppeteer.Page = await browser.newPage();
@@ -43,8 +39,6 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
   await page.waitForNavigation();
 
   const cookies: puppeteer.Protocol.Network.Cookie[] = await page.cookies();
-
-  // console.log('====cookies====>',cookies)
 
   SaveCookies(cookies);
 

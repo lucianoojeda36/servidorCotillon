@@ -22,7 +22,7 @@ router.get('/product', async (req, res, next) => {
 });
 
 router.get('/productForName', async (req, res) => {
-  const { name } = req.body;
+  const { name } = req.query;
 
   try {
     const reply = await client.get('productForName');
@@ -45,7 +45,7 @@ router.get('/productForName', async (req, res) => {
 });
 
 router.get('/productForBarCode', async (req, res) => {
-  const { code } = req.body;
+  const { code } = req.query;
 
   try {
     const reply = await client.get('productForBarCode');

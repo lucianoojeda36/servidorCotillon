@@ -50,7 +50,7 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async () =>
   
 
   const getObjectPrecios1 = await page.evaluate((objectPrecio:any) => objectPrecio.innerText, objectPrecios1);
- 
+
 
   // const getUrl: any = await page.evaluate(
   //   (objectNextButton: any) => objectNextButton.getAttribute('href'),
