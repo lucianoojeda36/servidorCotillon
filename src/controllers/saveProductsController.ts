@@ -1,4 +1,5 @@
 import { Products } from '../models/products';
+import AppDataSource from '../database';
 
 const randomCode = () => {
   let num: string = Math.floor(Math.random()) + '';
@@ -15,6 +16,7 @@ const SaveProductsController: (Barcode: string, Description: string, Price: numb
   Image
 ) => {
   try {
+    const productRepository = AppDataSource.getRepository(Products)
     const products: Products = new Products();
 
     products.barcode = Barcode ? Barcode : randomCode();
@@ -22,7 +24,7 @@ const SaveProductsController: (Barcode: string, Description: string, Price: numb
     products.price = Price;
     products.image = Image ? Image : ''
 
-    await products.save();
+    await productRepository.save(products);
   } catch (error) {
     console.log(error);
   }

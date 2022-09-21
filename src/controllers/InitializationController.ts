@@ -1,7 +1,7 @@
 import randomUseragent from 'random-useragent';
 import puppeteer from 'puppeteer';
-import SaveCookies from './saveCookiesController';
 import * as dotenv from 'dotenv';
+import DownloadFiles from './downloadFiles';
 dotenv.config()
 
 
@@ -20,11 +20,13 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
 
   const page: puppeteer.Page = await browser.newPage();
 
+  const urlMain = 'https://www.cotilloncasaalberto.com.ar/pedido/descarga.php';
+
   await page.setUserAgent(header);
 
   await page.setViewport({ width: 1366, height: 625 });
 
-  await page.goto('https://www.cotilloncasaalberto.com.ar/');
+  await page.goto(urlMain);
 
   const loginInput: puppeteer.ElementHandle<Element> | null = await page.waitForSelector('#login_usuario');
 
@@ -34,15 +36,12 @@ const InitializationController: (url?: boolean) => Promise<void> = async (url = 
 
   await loginPassword?.type(process.env.USER_PASSWORD as string);
 
-  await page.click('.i2_login_boton_ingresar');
+  await page.click('.button_login');
 
-  await page.waitForNavigation();
+  await page.waitForSelector('#contenedor');
 
-  const cookies: puppeteer.Protocol.Network.Cookie[] = await page.cookies();
+  DownloadFiles(page)
 
-  SaveCookies(cookies);
-
-  
 };
 
 export default InitializationController;

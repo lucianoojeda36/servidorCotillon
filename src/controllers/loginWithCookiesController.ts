@@ -1,7 +1,7 @@
-import path from "path";
 import  Puppeteer  from "puppeteer";
 import randomUseragent from 'random-useragent';
 import fs from 'fs'
+import DownloadFiles from "./downloadFiles";
 
 
 
@@ -9,9 +9,9 @@ let browser: any;
 
 let page: any;
 
+
+
 const LoginWithCookiesController: (url?: boolean) => Promise<void> = async () => {
-  const downloadPath : string = path.resolve('src','download','casa_alberto');
-  
 
   const urlMain = 'https://www.cotilloncasaalberto.com.ar/pedido/descarga.php';
 
@@ -21,12 +21,7 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async () =>
 
   browser = await Puppeteer.launch({
     headless: true,
-    // args: ['--start-maximized'],
-    // ignoreDefaultArgs: ['--disable-extensions'],
-    // args: ["--no-sandbox",'--use-gl=egl'],
     args:['--no-sandbox'],
-    // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
-    // ignoreHTTPSErrors: true,
   });
 
   page = await browser.newPage();
@@ -45,26 +40,8 @@ const LoginWithCookiesController: (url?: boolean) => Promise<void> = async () =>
 
   await page.waitForSelector('#contenedor');
 
-  const objectPrecios1 = await page.$('div.descargas_tabla_fila:nth-child(11) > div.descargas_tabla_linea > span');
-  const objectPrecios2 = await page.$('div.descargas_tabla_fila:nth-child(12) > div.descargas_tabla_linea > span');
-  
+  DownloadFiles(page)
 
-  const getObjectPrecios1 = await page.evaluate((objectPrecio:any) => objectPrecio.innerText, objectPrecios1);
-
-
-  // const getUrl: any = await page.evaluate(
-  //   (objectNextButton: any) => objectNextButton.getAttribute('href'),
-  //   objectNextButton
-  // );
-
-  const client = await page.target().createCDPSession();
-
-  await client.send('Page.setDownloadBehavior', {
-    behavior: 'allow',
-    downloadPath: downloadPath,
-  });
-
-  getObjectPrecios1 === 'Precios' ? await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(11) > a')]) : await Promise.all([await page.click('div.descargas_tabla_fila:nth-child(12) > a')])
 };
 
 export default LoginWithCookiesController

@@ -1,8 +1,6 @@
 import Puppeteer from 'puppeteer';
 import randomUseragent from 'random-useragent';
-import fs from 'fs';
 import SaveProducts from '../saveProductsController';
-require('events').EventEmitter.prototype._maxListeners = 100;
 
 let browser: any;
 
@@ -22,11 +20,6 @@ const ScrapingController: () => Promise<void> = async () => {
   browser = await Puppeteer.launch({
     headless: true,
     args: ['--no-sandbox'],
-    // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
-    // ignoreHTTPSErrors: true,
-    // args: ['--no-sandbox', '--disabled-setupid-sandbox'],
-    // args: ['--start-maximized'],
-    // userDataDir: 'C:UsersHPAppDataLocalGoogleChromeUser DataDefault',
     
   });
 
@@ -36,17 +29,9 @@ const ScrapingController: () => Promise<void> = async () => {
 
   await page.setViewport({ width: 1366, height: 625 });
 
-  const readCookie : string = fs.readFileSync('src/download/cookies/cookies.txt', 'utf8');
-
-  const parseCookie : any = JSON.parse(readCookie);
-
-  await page.setCookie(...parseCookie);
-
   if (pageIndex <= pagesForScreen) {
 
     await page.goto(urlMain);
-
-    // await page.waitForSelector('div.col-xs-12.col-sm-6.col-md-9.col-lg-9.listados > div.row');
 
     const listaDeItems  = await page.$$('div.col-md-4.col-sm-6.col-xs-12 > div.prodgrid');
 
@@ -82,7 +67,7 @@ const ScrapingController: () => Promise<void> = async () => {
 
     ScrapingController();
  
-    // page = await browser.close();
+    await browser.close();
   }
 };
 

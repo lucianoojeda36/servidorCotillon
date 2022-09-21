@@ -1,12 +1,14 @@
 import express, { Router } from 'express';
-import { client } from './server';
+import { client } from './index';
 import { Products } from './models/products';
 import AppDataSource from './database';
 
 const router: Router = express.Router();
 
 router.get('/product', async (req, res, next) => {
+  
   try {
+    
     const reply = await client.get('product');
     if (reply) return res.send(JSON.parse(reply));
 
